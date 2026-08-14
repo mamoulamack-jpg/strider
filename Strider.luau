@@ -1,28 +1,28 @@
 -- Discord: Hermabs | Roblox: Vell
 --!strict
---
--- Strider - a six legged creature that walks with no animation data at all.
+
+-- Strider, a six legged creature that walks with no animation data at all.
 -- There is no Animator, no KeyframeSequence and no canned walk cycle. Every
 -- joint angle on every frame is solved backwards from where the feet need to be.
---
+
 -- The rig is an ordinary Motor6D assembly built by ServerStorage.BuildStrider.
 -- Each leg is three joints in a chain: a yaw at the hip, a pitch at the thigh
 -- and a bend at the knee. No bone length is written down in this file. They are
 -- measured off the rig when the creature is built, so a leg can be resized in
 -- the builder and nothing in here needs touching.
---
+
 -- Two objects, and the split between them is the part worth understanding:
---
+
 --   Leg      owns one leg. It knows where its foot is planted in the world,
 --            whether that foot has strayed far enough to need moving, and how
 --            to bend three joints so the foot sits where it is told to.
---
+
 --   Strider  owns the body and the six Legs. It decides where to walk, holds
 --            the body up, and referees which legs may move at any moment.
---
+
 -- The order of work inside one frame matters, because the body and the legs
 -- feed each other:
---
+
 --   1. Strider picks a heading and a speed, then advances its own dead reckoned
 --      position by that speed. This position is the creature's intent, not a
 --      measurement of where it physically is.
@@ -33,7 +33,7 @@
 --   4. Strider averages the ground under all six feet and aims the body
 --      constraints at that height. The body follows the legs; the legs do not
 --      follow the body.
---
+
 -- The body is never CFramed. It hangs unanchored from an AlignPosition and an
 -- AlignOrientation, which is where the bob while idling and the tilt on slopes
 -- come from without either being faked.
