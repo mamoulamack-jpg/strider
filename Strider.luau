@@ -23,14 +23,14 @@
 -- The order of work inside one frame matters, because the body and the legs
 -- feed each other:
 
---   1. Strider picks a heading and a speed, then advances its own dead reckoned
+--   1: Strider picks a heading and a speed, then advances its own dead reckoned
 --      position by that speed. This position is the creature's intent, not a
 --      measurement of where it physically is.
---   2. Every Leg raycasts for the ground beneath its stance point, advances any
+--   2: Every Leg raycasts for the ground beneath its stance point, advances any
 --      swing already running, and solves its three joints.
---   3. Strider reads what the legs found and starts a swing on the leg that is
+--   3: Strider reads what the legs found and starts a swing on the leg that is
 --      most out of place, if the tripod rule allows that leg to move.
---   4. Strider averages the ground under all six feet and aims the body
+--   4: Strider averages the ground under all six feet and aims the body
 --      constraints at that height. The body follows the legs; the legs do not
 --      follow the body.
 
@@ -49,7 +49,7 @@ local RIDE_HEIGHT = 11.9
 -- A foot lands where the body will be one swing from now, so the trigger has to
 -- clear the ground the body covers during that swing. Set it any lower and every
 -- leg re-steps the frame after it plants, which is a shuffle, not a walk.
---
+
 -- These two also set the duty cycle: a leg spends STEP_TRIGGER/WALK_SPEED on the
 -- ground and STEP_TIME in the air. Below 50% on the ground the two tripods stop
 -- overlapping and there are moments with nothing holding the body up. 6.0 and
@@ -178,7 +178,7 @@ end
 
 -- One leg of the six. Holds the three Motor6D joints it drives, the bone
 -- measurements taken off the rig, and the world position of its foot.
---
+
 -- A foot is either planted or swinging. Planted means it is pinned to a fixed
 -- world point and does not move at all while the body travels over it, which is
 -- what stops the creature from ice skating. Swinging means it is travelling on
@@ -278,11 +278,11 @@ function Leg.beginSwing(self: Leg)
 end
 
 -- Two different body frames come in here and they are not interchangeable.
---
--- `plan` is the pose the creature intends to hold. Stance points are taken off
+
+-- "plan" is the pose the creature intends to hold. Stance points are taken off
 -- it so the gait never sees the physical body's wobble and cannot feed itself.
---
--- `body` is where the hull actually is. The leg parts are jointed to that hull,
+
+-- "body" is where the hull actually is. The leg parts are jointed to that hull,
 -- so the IK has to solve against it. Solve against the plan instead and the foot
 -- lands wherever the constraints happen to be lagging that frame, which shows up
 -- as every planted foot creeping.
@@ -358,7 +358,7 @@ function Leg.apply(self: Leg, hip: CFrame)
 end
 
 -- The creature itself: the body, the six legs, and the decisions.
---
+
 -- Dormant  no player in range. Sways gently and drifts its heading.
 -- Hunting  walking towards a player.
 -- Looming  standing over one. Stops moving, turns slowly, calls out.
@@ -548,7 +548,7 @@ end
 -- raycast for real ground, so these only have to catch what the creature
 -- genuinely cannot straddle. The side casts are compared against each other to
 -- work out which way is more open.
---
+
 -- Returns a turn to add on top of the heading the creature wants, rather than a
 -- heading of its own. Replacing the goal outright is what made it oscillate: the
 -- two headings took turns winning and it never committed to either.
